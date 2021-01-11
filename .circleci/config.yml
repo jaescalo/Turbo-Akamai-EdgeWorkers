@@ -1,10 +1,18 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+workflows:
+  build:
+    jobs:
+      - build:
+          context:
+            - edgerc
+
 jobs:
   build:
     docker:
       - image: akamai/edgeworkers
 
     steps:
+      - run: echo $host
       - run: akamai
