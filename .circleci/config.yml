@@ -14,8 +14,8 @@ jobs:
       - image: akamai/edgeworkers
 
     steps:
-      - run: cat << EOF > .edgerc
-      - run: [default]
+      - run: echo "[default]" > .edgerc
+      - run: cat << EOF >> .edgerc
       - run: host = $host
       - run: EOF 
       - run: akamai
