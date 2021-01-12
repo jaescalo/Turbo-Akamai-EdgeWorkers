@@ -18,11 +18,15 @@ jobs:
       EWID: 4885
       ACCOUNTKEY: 1-6JHGX
 
+    working_directory: /root/edgeworkers
+
     steps:
-      - run: pwd
+      - checkout
       - run: echo "[default]" > .edgerc
       - run: echo client_secret = $client_secret >> .edgerc
       - run: echo host = $host >> .edgerc
       - run: echo access_token = $access_token >> .edgerc
       - run: echo client_token = $client_token >> .edgerc
-      - run: akamai ew status $EWID --versionId $EWVERSION --edgerc /root/project/.edgerc --accountkey $ACCOUNTKEY
+      - run: akamai ew upload --codeDir ../edgeworkers $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
+      - run: akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
+      - run: akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
