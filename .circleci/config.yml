@@ -1,25 +1,18 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-workflows:
-  build:
-    jobs:
-      - build:
-          context:
-            - edgerc
+orbs:
+  node: circleci/node@3.0.0
 
 jobs:
   build:
     docker:
       - image: akamai/edgeworkers
-
     environment:
-      EWVERSION: 0.18
+      EWVERSION: 0.19
       EWID: 4885
       ACCOUNTKEY: 1-6JHGX
-
     working_directory: /root/edgeworkers
-
     steps:
       - checkout
       - run: echo "[default]" > .edgerc
@@ -30,3 +23,16 @@ jobs:
       - run: akamai ew upload --codeDir ../edgeworkers $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - run: akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - run: akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
+
+  test:
+    steps:
+      - checkout
+      - node/node-version
+
+workflows:
+  build:
+    jobs:
+      - build:
+          context:
+            - edgerc
+      - test
