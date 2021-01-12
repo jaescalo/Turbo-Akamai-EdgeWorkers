@@ -23,3 +23,5 @@ function getCacheTagsForPath(path) {
     logger.log("Responding with hello message from the path: %s", cacheTags.join(','))
     return '' + cacheTags.join(',');
 }
+
+export { getCacheTagsForPath };
