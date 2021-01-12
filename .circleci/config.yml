@@ -2,7 +2,7 @@
 version: 2.1
 
 orbs:
-  node: circleci/node@3.0.0
+  hello: circleci/hello-build@0.0.5
 
 jobs:
   build:
@@ -24,15 +24,10 @@ jobs:
       - run: akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - run: akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
 
-  test:
-    steps:
-      - checkout
-      - node/node-version
-
 workflows:
-  build:
+  build_and_test:
     jobs:
       - build:
           context:
             - edgerc
-      - test
+      - hello/hello-build
