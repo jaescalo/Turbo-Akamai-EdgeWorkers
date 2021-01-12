@@ -13,12 +13,16 @@ jobs:
     docker:
       - image: akamai/edgeworkers
 
+    environment:
+      EWVERSION: 0.11
+      EWID: 4885
+      ACCOUNTKEY: 1-6JHGX
+
     steps:
       - run: echo "[default]" > .edgerc
       - run: echo client_secret = $client_secret >> .edgerc
       - run: echo host = $host >> .edgerc
       - run: echo access_token = $access_token >> .edgerc
       - run: echo client_token = $client_token >> .edgerc
-      - run: EWVERSION=0.11
       - run: echo $EWVERSION
-      - run: akamai ew status 4885 --versionId $EWVERSION --accountkey 1-6JHGX
+      - run: akamai ew status $EWID --versionId $EWVERSION --accountkey $ACCOUNTKEY
