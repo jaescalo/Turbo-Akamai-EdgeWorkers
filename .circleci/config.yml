@@ -14,7 +14,7 @@ jobs:
       - image: akamai/edgeworkers
 
     environment:
-      EWVERSION: 0.11
+      EWVERSION: 0.17
       EWID: 4885
       ACCOUNTKEY: 1-6JHGX
 
