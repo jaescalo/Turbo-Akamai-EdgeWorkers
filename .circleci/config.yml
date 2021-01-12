@@ -19,10 +19,12 @@ jobs:
       ACCOUNTKEY: 1-6JHGX
 
     steps:
+      - run: pwd
       - run: echo "[default]" > .edgerc
       - run: echo client_secret = $client_secret >> .edgerc
       - run: echo host = $host >> .edgerc
       - run: echo access_token = $access_token >> .edgerc
       - run: echo client_token = $client_token >> .edgerc
+      - run: ls -lhart
       - run: echo $EWVERSION
       - run: akamai ew status $EWID --versionId $EWVERSION --accountkey $ACCOUNTKEY
