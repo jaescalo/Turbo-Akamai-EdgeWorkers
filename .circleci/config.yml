@@ -25,4 +25,4 @@ jobs:
       - run: echo host = $host >> .edgerc
       - run: echo access_token = $access_token >> .edgerc
       - run: echo client_token = $client_token >> .edgerc
-      - run: akamai ew status $EWID --versionId $EWVERSION --edgerc /root/.edgerc --accountkey $ACCOUNTKEY
+      - run: akamai ew status $EWID --versionId $EWVERSION --edgerc /root/project/.edgerc --accountkey $ACCOUNTKEY
