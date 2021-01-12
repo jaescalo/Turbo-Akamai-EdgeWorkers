@@ -30,9 +30,3 @@ jobs:
       - run: akamai ew upload --codeDir ../edgeworkers $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - run: akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - run: akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
-
-
-
-      HACER TEST SUITE PARA EDGEWORKERS
-
-
