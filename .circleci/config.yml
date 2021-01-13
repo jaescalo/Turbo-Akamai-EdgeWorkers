@@ -2,14 +2,14 @@
 version: 2.1
 
 orbs:
-  hello: circleci/hello-build@0.0.5
+  node: circleci/node@3.0.0
 
 jobs:
   build:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.20
+      EWVERSION: 0.21
       EWID: 4885
       ACCOUNTKEY: 1-6JHGX
     working_directory: /root/edgeworkers
@@ -30,4 +30,4 @@ workflows:
       - build:
           context:
             - edgerc
-      - hello/hello-build
+      - node/test
