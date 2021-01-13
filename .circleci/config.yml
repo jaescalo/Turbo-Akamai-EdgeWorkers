@@ -9,7 +9,7 @@ jobs:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.21
+      EWVERSION: 0.22
       EWID: 4885
       ACCOUNTKEY: 1-6JHGX
     working_directory: /root/edgeworkers
