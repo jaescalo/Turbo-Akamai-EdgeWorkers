@@ -7,3 +7,4 @@ describe('Akamai EdgeWorkers Sum', function() {
     assert.equal(3, sum(1,2));
   });
 });
+
