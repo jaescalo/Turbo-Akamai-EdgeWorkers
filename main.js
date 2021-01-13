@@ -24,4 +24,8 @@ function getCacheTagsForPath(path) {
     return '' + cacheTags.join(',');
 }
 
-export { getCacheTagsForPath };
+function sum(a, b) {
+    return a + b;
+}
+
+module.exports = sum;

@@ -1,0 +1,30 @@
+{
+  "name": "turboedgeworkers",
+  "version": "1.0.0",
+  "description": "bundle save and deploy edgeworkers",
+  "main": "main.js",
+  "type": "module",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^8.2.1"
+  },
+  "scripts": {
+    "test": "mocha './test/main.test.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaescalo/TurboEdgeWorkers.git"
+  },
+  "keywords": [
+    "edgeworkers"
+  ],
+  "author": "Jaime Escalona",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jaescalo/TurboEdgeWorkers/issues"
+  },
+  "homepage": "https://github.com/jaescalo/TurboEdgeWorkers#readme",
+  "directories": {
+    "test": "test"
+  }
+}
