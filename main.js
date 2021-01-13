@@ -1,5 +1,4 @@
 /// <reference types="akamai-edgeworkers"/>
-import { logger } from "log";
 
 export function onOriginResponse(request, response) {
     // Call function to set the Edge-Cache-Tag Header
@@ -7,8 +6,7 @@ export function onOriginResponse(request, response) {
 }
 
 export function onClientResponse(request, response) {
-    logger.log("Adding a header in ClientResponse");
-    response.setHeader('My-Edge-Cache-Tag', 'jaime-cache-tag');
+    response.setHeader('My-Edge-Cache-Tag', sum(10,20));
 }
 
 // Get the Cache Tag value based on the request path
@@ -20,7 +18,6 @@ function getCacheTagsForPath(path) {
     for (let i = 1; i < folderNames.length; i++) {
         cacheTags.push(cacheTagPrefix + cacheTagFolderSeparator + folderNames.slice(1, i + 1).join(cacheTagFolderSeparator));
     }
-    logger.log("Responding with hello message from the path: %s", cacheTags.join(','))
     return '' + cacheTags.join(',');
 }
 

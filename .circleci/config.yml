@@ -9,7 +9,7 @@ jobs:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.23
+      EWVERSION: 0.24
       EWID: 4885
       ACCOUNTKEY: 1-6JHGX
     working_directory: /root/edgeworkers
@@ -20,9 +20,9 @@ jobs:
       - run: echo host = $host >> .edgerc
       - run: echo access_token = $access_token >> .edgerc
       - run: echo client_token = $client_token >> .edgerc
-      #- run: akamai ew upload --codeDir ../edgeworkers $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
-      #- run: akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
-      #- run: akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
+      - run: akamai ew upload --codeDir ../edgeworkers $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
+      - run: akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
+      - run: akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
 
 workflows:
   build_and_test:
