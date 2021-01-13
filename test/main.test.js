@@ -1,3 +1,6 @@
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
 // Require the built in 'assertion' library
 var assert = require('assert');
 
