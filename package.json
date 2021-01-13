@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "bundle save and deploy edgeworkers",
   "main": "main.js",
-  "type": "module",
   "dependencies": {},
   "devDependencies": {
     "mocha": "^8.2.1"
