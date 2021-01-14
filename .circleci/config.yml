@@ -20,7 +20,7 @@ jobs:
       - run: echo host = $host >> .edgerc
       - run: echo access_token = $access_token >> .edgerc
       - run: echo client_token = $client_token >> .edgerc
-      - run: tar --disable-copyfile -czvf ./control-cache.tgz bundle.json main.js lib.js
+      - run: tar -czvf ./control-cache.tgz bundle.json main.js lib.js
       - run: akamai ew upload --bundle ./control-cache.tgz $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - run: akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - run: akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
