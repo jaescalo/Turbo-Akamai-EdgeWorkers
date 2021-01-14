@@ -12,7 +12,7 @@ jobs:
       EWVERSION: 0.28
       EWID: 4885
       ACCOUNTKEY: 1-6JHGX
-      BUNDLENAME: jaescalo-testing
+      BUNDLENAME: jaescalo-testing.tgz
     working_directory: /root/edgeworkers
     steps:
       - checkout
