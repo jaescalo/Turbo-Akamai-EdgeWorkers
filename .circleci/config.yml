@@ -22,8 +22,7 @@ jobs:
       - run: echo access_token = $access_token >> .edgerc
       - run: echo client_token = $client_token >> .edgerc
       - run: tar -czvf ./$BUNDLENAME.tgz main.js bundle.json
-      - run: ls
-      - run: akamai ew upload —-bundle ./$BUNDLENAME.tgz $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
+      - run: akamai ew upload --bundle ./$BUNDLENAME.tgz $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - run: akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - run: akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
 
