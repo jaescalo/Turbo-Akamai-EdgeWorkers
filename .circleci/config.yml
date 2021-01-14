@@ -12,7 +12,7 @@ jobs:
       EWVERSION: 0.28
       EWID: 4885
       ACCOUNTKEY: 1-6JHGX
-      BUNDLENAME: jaescalo-testing.tgz
+      BUNDLENAME: jaescalo-testing
     working_directory: /root/edgeworkers
     steps:
       - checkout
@@ -21,8 +21,9 @@ jobs:
       - run: echo host = $host >> .edgerc
       - run: echo access_token = $access_token >> .edgerc
       - run: echo client_token = $client_token >> .edgerc
-      - run: tar -czvf ./$BUNDLENAME main.js bundle.json
-      - run: akamai ew upload —-bundle ./$BUNDLENAME $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
+      - run: tar -czvf ./$BUNDLENAME.tgz main.js bundle.json
+      - run: ls
+      - run: akamai ew upload —-bundle ./$BUNDLENAME.tgz $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - run: akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - run: akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
 
