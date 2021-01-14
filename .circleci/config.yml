@@ -9,11 +9,11 @@ jobs:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.30
+      EWVERSION: "0.30"
       EWID: 4885
       ACCOUNTKEY: 1-6JHGX
       BUNDLENAME: jaescalo-testing.tgz
-      DESCRIPTION: "Crerate bundle.json"
+      DESCRIPTION: "Create bundle.json"
     working_directory: /root/edgeworkers
     steps:
       - checkout
