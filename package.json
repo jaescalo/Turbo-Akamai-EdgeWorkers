@@ -7,7 +7,8 @@
   "dependencies": {},
   "devDependencies": {
     "log": "^6.0.0",
-    "mocha": "^8.2.1"
+    "mocha": "^8.2.1",
+    "node-mocks-http": "^1.10.0"
   },
   "scripts": {
     "test": "mocha './test/main.test.js'"

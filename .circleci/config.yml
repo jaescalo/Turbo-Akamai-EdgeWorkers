@@ -9,10 +9,11 @@ jobs:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.28
+      EWVERSION: 0.29
       EWID: 4885
       ACCOUNTKEY: 1-6JHGX
-      BUNDLENAME: jaescalo-testing
+      BUNDLENAME: jaescalo-testing.tgz
+      DESCRIPTION: "Crerate bundle.json"
     working_directory: /root/edgeworkers
     steps:
       - checkout
@@ -21,8 +22,9 @@ jobs:
       - run: echo host = $host >> .edgerc
       - run: echo access_token = $access_token >> .edgerc
       - run: echo client_token = $client_token >> .edgerc
-      - run: tar -czvf ./$BUNDLENAME.tgz main.js bundle.json
-      - run: akamai ew upload --bundle ./$BUNDLENAME.tgz $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
+      - run: echo "{"edgeworker-version":\"$EWVERSION\",description:\"$DESCRIPTION\"}" > bundle.json
+      - run: tar -czvf ./$BUNDLENAME main.js bundle.json
+      - run: akamai ew upload --bundle ./$BUNDLENAME $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - run: akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - run: akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
 
