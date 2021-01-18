@@ -9,7 +9,7 @@ jobs:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: null
+      EWVERSION: xx.xx
       EWID: 4885
       ACCOUNTKEY: 1-6JHGX
       BUNDLENAME: jaescalo-testing.tgz
