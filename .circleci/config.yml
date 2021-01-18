@@ -9,7 +9,7 @@ jobs:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: xx.xx
+      EWVERSION: 0.32
       EWID: 4885
       ACCOUNTKEY: 1-6JHGX
       BUNDLENAME: jaescalo-testing.tgz
@@ -18,7 +18,6 @@ jobs:
     steps:
       - checkout
       - run: echo "[default]" > .edgerc 
-      - run: echo 'export EWVERSION=`cat bundle.json | awk -F'"' '/edgeworker-version/ { print $4 }'`' >> $BASH_ENV
       - run: echo $EWVERSION
       - run: echo client_secret = $client_secret >> .edgerc
       - run: echo host = $host >> .edgerc

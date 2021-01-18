@@ -1,4 +1,4 @@
 {
-    "edgeworker-version": "0.31",
-    "description" : "Read params from bundle.json"
+    "edgeworker-version": "XX.YY",
+    "description" : "Re-creatd by instructions in CircleCI config.yml"
 }
