@@ -1,4 +1,4 @@
 {
-    "edgeworker-version": "0.29",
-    "description" : "Export function for test suite"
+    "edgeworker-version": "0.31",
+    "description" : "Read params from bundle.json"
 }
