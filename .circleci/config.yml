@@ -18,8 +18,7 @@ jobs:
     steps:
       - checkout
       - run: echo "[default]" > .edgerc 
-      - run: 
-          environment: EWVERSION=`cat bundle.json | awk -F'"' '/edgeworker-version/ { print $4 }'`
+      - run: cat bundle.json | awk -F'"' '/edgeworker-version/ { print $4 }' >> $EWVERSION
       - run: echo $EWVERSION
       - run: echo client_secret = $client_secret >> .edgerc
       - run: echo host = $host >> .edgerc
