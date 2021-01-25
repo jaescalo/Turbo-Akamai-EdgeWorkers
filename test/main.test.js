@@ -6,7 +6,7 @@ import logger from 'log';
 const { pkg } = httpMocks;
 
 function sum(a, b) {
-/  return a + b;
+  return a + b;
 }
 
 describe('Akamai EdgeWorkers Sum', function() {

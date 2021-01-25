@@ -9,11 +9,11 @@ jobs:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.33
+      EWVERSION: 0.34
       EWID: 4885
       ACCOUNTKEY: 1-6JHGX
       BUNDLENAME: jaescalo-testing.tgz
-      DESCRIPTION: "Testing new node 4.1.0 orb version"
+      DESCRIPTION: "Revert test suite"
     working_directory: /root/edgeworkers
     steps:
       - checkout
