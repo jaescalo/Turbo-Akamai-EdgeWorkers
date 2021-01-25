@@ -1,6 +1,5 @@
 /// <reference types="akamai-edgeworkers"/>
-import pkg from 'log';
-const { logger } = pkg;
+import { logger }  from 'log';
 
 export function onOriginResponse(request, response) {
     // Call function to set the Edge-Cache-Tag Header
