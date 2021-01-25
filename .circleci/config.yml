@@ -2,18 +2,18 @@
 version: 2.1
 
 orbs:
-  node: circleci/node@3.0.0
+  node: circleci/node@4.1.0
 
 jobs:
   build:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.32
+      EWVERSION: 0.33
       EWID: 4885
       ACCOUNTKEY: 1-6JHGX
       BUNDLENAME: jaescalo-testing.tgz
-      DESCRIPTION: "Create bundle.json"
+      DESCRIPTION: "Testing new node 4.1.0 orb version"
     working_directory: /root/edgeworkers
     steps:
       - checkout
