@@ -1,5 +1,6 @@
 /// <reference types="akamai-edgeworkers"/>
-import { logger }  from 'log';
+import pkg from 'log';
+const { logger } = pkg;
 
 export function onOriginResponse(request, response) {
     // Call function to set the Edge-Cache-Tag Header
@@ -25,6 +26,6 @@ function getCacheTagsForPath(path) {
     return '' + cacheTags.join(',');
 }
 
-function sum(a, b) {
+export function sum(a, b) {
     return a + b;
 }
