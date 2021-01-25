@@ -9,7 +9,7 @@ jobs:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.34
+      EWVERSION: 0.35
       EWID: 4885
       ACCOUNTKEY: 1-6JHGX
       BUNDLENAME: jaescalo-testing.tgz
@@ -17,16 +17,16 @@ jobs:
     working_directory: /root/edgeworkers
     steps:
       - checkout
+      - run: 
+          name: "Build .edgerc file"
+          command: echo -e "[default]\nclient_secret = $client_secret\nhost = $host\naccess_token = $access_token\nclient_token = $client_token" > .edgerc
+          command: echo "{"edgeworker-version":\"$EWVERSION\","description":\"$DESCRIPTION\"}" > bundle.json
       - run:
-          name: "Install jq"
-          command: apk add --upgrade jq
-            
-      - run: echo -e "[default]\nclient_secret = $client_secret\nhost = $host\naccess_token = $access_token\nclient_token = $client_token" > .edgerc
-      - run: echo "{"edgeworker-version":\"$EWVERSION\","description":\"$DESCRIPTION\"}" > bundle.json
-      - run: tar -czvf ./$BUNDLENAME main.js bundle.json
-      - run: akamai ew upload --bundle ./$BUNDLENAME $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
-      - run: akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
-      - run: akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
+          name: "Bundle, Save and Activate EW" 
+          command: tar -czvf ./$BUNDLENAME main.js bundle.json
+          command: akamai ew upload --bundle ./$BUNDLENAME $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
+          command: akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
+          command: akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - run: jq
 
 workflows:
@@ -35,4 +35,8 @@ workflows:
       - build:
           context:
             - edgerc
+          pre-steps:
+            - run:
+                name: "Install jq"
+                command: apk add --upgrade jq
       - node/test
