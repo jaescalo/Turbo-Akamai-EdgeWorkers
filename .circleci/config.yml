@@ -45,6 +45,4 @@ workflows:
                 name: "Remove .edgerc"
                 command: rm -r .edgerc
 
-      - node/test:
-          - store_test_results:
-              path: test
+      - node/test
