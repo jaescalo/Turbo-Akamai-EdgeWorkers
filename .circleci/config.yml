@@ -26,7 +26,7 @@ jobs:
       - run: akamai ew upload --bundle ./$BUNDLENAME $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - run: akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - run: akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
-      - run: while :; do OUTPUT=`akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY | awk '/PRESUBMIT|PENDING/ { print $4 }'`; echo Activation status is $OUTPUT; if [ -z $OUTPUT ]; then echo Activation COMPLETE; break; else sleep 5; fi; done
+      - run: while :; do OUTPUT=`akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY | awk '/PRESUBMIT|PENDING|IN_PROGRESS/ { print $4 }'`; echo Activation status is $OUTPUT; if [ -z $OUTPUT ]; then echo Activation COMPLETE; break; else sleep 5; fi; done
 
 workflows:
   build_and_test:
