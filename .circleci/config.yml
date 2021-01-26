@@ -9,7 +9,7 @@ jobs:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.38
+      EWVERSION: 0.39
       EWID: 4885
       ACCOUNTKEY: 1-6JHGX
       BUNDLENAME: jaescalo-testing.tgz
@@ -30,6 +30,13 @@ jobs:
           name: "Activation in Progress"
           command: while :; do OUTPUT=`akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY | awk '/PRESUBMIT|PENDING|IN_PROGRESS/ { print $4 }'`; if [ -z $OUTPUT ]; then echo Activation COMPLETE; break; else sleep 5; fi; done
 
+  test:
+    steps:
+      - node/test
+      - store_test_results:
+          path: test
+
+
 workflows:
   build_and_test:
     jobs:
@@ -45,4 +52,4 @@ workflows:
                 name: "Remove .edgerc"
                 command: rm -r .edgerc
 
-      - node/test
+      - test
