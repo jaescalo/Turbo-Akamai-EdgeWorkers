@@ -29,13 +29,11 @@ jobs:
       - run:
           name: "Activation in Progress"
           command: while :; do OUTPUT=`akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY | awk '/PRESUBMIT|PENDING|IN_PROGRESS/ { print $4 }'`; if [ -z $OUTPUT ]; then echo Activation COMPLETE; break; else sleep 5; fi; done
-
   test:
+    executor: node/default
     steps:
-      - node/test
       - store_test_results:
           path: test
-
 
 workflows:
   build_and_test:
@@ -51,5 +49,5 @@ workflows:
             - run: 
                 name: "Remove .edgerc"
                 command: rm -r .edgerc
-
+      - node/test
       - test
