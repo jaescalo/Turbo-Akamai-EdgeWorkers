@@ -17,6 +17,10 @@ jobs:
     working_directory: /root/edgeworkers
     steps:
       - checkout
+      - run: 
+          name: "Build .edgerc file"
+          command: echo -e "[default]\nclient_secret = $client_secret\nhost = $host\naccess_token = $access_token\nclient_token = $client_token" > .edgerc
+
       - run: echo "{"edgeworker-version":\"$EWVERSION\","description":\"$DESCRIPTION\"}" > bundle.json
       - run: tar -czvf ./$BUNDLENAME main.js bundle.json
       - run: akamai ew upload --bundle ./$BUNDLENAME $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
@@ -33,9 +37,9 @@ workflows:
           context:
             - edgerc
           pre-steps:
-            - run: 
-                name: "Build .edgerc file"
-                command: echo -e "[default]\nclient_secret = $client_secret\nhost = $host\naccess_token = $access_token\nclient_token = $client_token" > .edgerc
+            - run:
+                name: "Install jq"
+                command: apk add --upgrade jq
           post-steps:
             - run: 
                 name: "Remove .edgerc"
