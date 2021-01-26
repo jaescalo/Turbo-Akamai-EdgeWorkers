@@ -39,7 +39,7 @@ workflows:
                 name: "Install jq"
                 command: apk add --upgrade jq
           post-steps:
-            -run: 
+            - run: 
                 name: "Remove .edgerc"
                 command: rm -r .edgerc
       - node/test
