@@ -9,7 +9,7 @@ jobs:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.36
+      EWVERSION: 0.37
       EWID: 4885
       ACCOUNTKEY: 1-6JHGX
       BUNDLENAME: jaescalo-testing.tgz
@@ -17,16 +17,14 @@ jobs:
     working_directory: /root/edgeworkers
     steps:
       - checkout
-      - run: 
-          name: "Build .edgerc file"
-          command: echo -e "[default]\nclient_secret = $client_secret\nhost = $host\naccess_token = $access_token\nclient_token = $client_token" > .edgerc
-
       - run: echo "{"edgeworker-version":\"$EWVERSION\","description":\"$DESCRIPTION\"}" > bundle.json
       - run: tar -czvf ./$BUNDLENAME main.js bundle.json
       - run: akamai ew upload --bundle ./$BUNDLENAME $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - run: akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - run: akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
-      - run: while :; do OUTPUT=`akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY | awk '/PRESUBMIT|PENDING|IN_PROGRESS/ { print $4 }'`; echo Activation status is $OUTPUT; if [ -z $OUTPUT ]; then echo Activation COMPLETE; break; else sleep 5; fi; done
+      - run:
+          name: "Activation in Progress"
+          command: while :; do OUTPUT=`akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY | awk '/PRESUBMIT|PENDING|IN_PROGRESS/ { print $4 }'`; if [ -z $OUTPUT ]; then echo Activation COMPLETE; break; else sleep 5; fi; done
 
 workflows:
   build_and_test:
@@ -35,9 +33,9 @@ workflows:
           context:
             - edgerc
           pre-steps:
-            - run:
-                name: "Install jq"
-                command: apk add --upgrade jq
+            - run: 
+                name: "Build .edgerc file"
+                command: echo -e "[default]\nclient_secret = $client_secret\nhost = $host\naccess_token = $access_token\nclient_token = $client_token" > .edgerc
           post-steps:
             - run: 
                 name: "Remove .edgerc"
