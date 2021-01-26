@@ -9,11 +9,11 @@ jobs:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.35
+      EWVERSION: 0.36
       EWID: 4885
       ACCOUNTKEY: 1-6JHGX
       BUNDLENAME: jaescalo-testing.tgz
-      DESCRIPTION: "Bash line to check activation status"
+      DESCRIPTION: "Adding IN_PROGRESS case"
     working_directory: /root/edgeworkers
     steps:
       - checkout
