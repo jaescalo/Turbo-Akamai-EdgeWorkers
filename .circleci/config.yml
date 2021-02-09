@@ -9,11 +9,11 @@ jobs:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.39
+      EWVERSION: 0.38
       EWID: 4885
       ACCOUNTKEY: 1-6JHGX
       BUNDLENAME: jaescalo-testing.tgz
-      DESCRIPTION: "Adding IN_PROGRESS case"
+      DESCRIPTION: "Testing deploy command"
     working_directory: /root/edgeworkers
     steps:
       - checkout
