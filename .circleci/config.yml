@@ -50,6 +50,9 @@ workflows:
             - run:
                 name: "Install jq"
                 command: apk add --upgrade jq
+            - run:
+                name: Install jFrog CLI
+                command: curl -fL https://getcli.jfrog.io | sh
           post-steps:
             - run: 
                 name: "Remove .edgerc"
