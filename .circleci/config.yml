@@ -53,12 +53,12 @@ workflows:
             - run:
                 name: "Install jFrog CLI"
                 command: |
-                pwd
-                curl -o /root -fL https://getcli.jfrog.io | sh
-                ls -lhart
+                  pwd
+                  curl -fL https://getcli.jfrog.io | sh
+                  ls -lhart
           post-steps:
             - run: 
                 name: "Remove .edgerc"
                 command: rm -r .edgerc
-      - node/test
-      - test
+      #- node/test
+      #- test
