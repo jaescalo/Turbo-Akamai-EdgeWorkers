@@ -47,9 +47,9 @@ workflows:
           context:
             - edgerc
           pre-steps:
-            - run:
-                name: "Install curl"
-                command: apk --no-cache add curl
+            #- run:
+            #    name: "Install curl"
+            #    command: apk --no-cache add curl
             - run:
                 name: "Install jFrog CLI"
                 command: curl -fL https://getcli.jfrog.io | sh
