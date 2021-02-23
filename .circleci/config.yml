@@ -25,15 +25,16 @@ jobs:
           command: |
             echo "{"edgeworker-version":\"$EWVERSION\","description":\"$DESCRIPTION\"}" > bundle.json
             tar -czvf ./$BUNDLENAME main.js bundle.json
+            pwd
+            ls
       
       - store_artifacts:
-          path: /root/edgeworkers/$BUNDLENAME  
+          path: /root/edgeworkers/jaescalo-testing.tgz
           destination: artifacts
 
       - run: 
           name: Upload Artifact
           command: |
-            pwd
             akamai ew upload --bundle ./$BUNDLENAME $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
             akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
             akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
