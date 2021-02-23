@@ -25,6 +25,11 @@ jobs:
           command: |
             echo "{"edgeworker-version":\"$EWVERSION\","description":\"$DESCRIPTION\"}" > bundle.json
             tar -czvf ./$BUNDLENAME main.js bundle.json
+      
+      - store_artifacts:
+          path: /root/edgeworkers/$BUNDLENAME  
+          destination: artifacts
+
       - run: 
           name: Upload Artifact
           command: |
