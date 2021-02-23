@@ -28,6 +28,7 @@ jobs:
       - run: 
           name: Upload Artifact
           command: |
+            pwd
             akamai ew upload --bundle ./$BUNDLENAME $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
             akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
             akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
