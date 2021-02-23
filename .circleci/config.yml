@@ -19,7 +19,7 @@ jobs:
       - checkout
       - run: 
           name: "Build .edgerc file"
-          command: echo -e "[default]\nclient_secret = $client_secret\nhost = $host\naccess_token = $access_token\nclient_token = $client_token" > .edgerc
+          command: echo -e "[default]\nclient_secret = $CLIENT_SECRET\nhost = $HOST\naccess_token = $ACCESS_TOKEN\nclient_token = $CLIENT_TOKEN" > .edgerc
       - run:
           name: Create Artifact
           command: |
