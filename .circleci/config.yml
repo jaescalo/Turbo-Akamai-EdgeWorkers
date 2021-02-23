@@ -53,7 +53,7 @@ workflows:
             - run:
                 name: "Install jFrog CLI"
                 command: |
-                  pwd
+                  cd /root
                   curl -fL https://getcli.jfrog.io | sh
                   ls -lhart
           post-steps:
