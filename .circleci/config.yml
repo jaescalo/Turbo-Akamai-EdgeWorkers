@@ -52,7 +52,10 @@ workflows:
                 command: apk --no-cache add curl
             - run:
                 name: "Install jFrog CLI"
-                command: curl -o /root -fL https://getcli.jfrog.io | sh
+                command: |
+                pwd
+                curl -o /root -fL https://getcli.jfrog.io | sh
+                ls -lhart
           post-steps:
             - run: 
                 name: "Remove .edgerc"
