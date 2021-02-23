@@ -25,12 +25,10 @@ jobs:
           command: |
             echo "{"edgeworker-version":\"$EWVERSION\","description":\"$DESCRIPTION\"}" > bundle.json
             tar -czvf ./$BUNDLENAME main.js bundle.json
-            pwd
-            ls
       
       - store_artifacts:
-          path: /root/edgeworkers/jaescalo-testing.tgz
-          destination: artifacts
+          path: /root/edgeworkers/${BUNDLENAME}
+          destination: ${BUNDLENAME}
 
       - run: 
           name: Upload Artifact
@@ -38,7 +36,7 @@ jobs:
             akamai ew upload --bundle ./$BUNDLENAME $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
             akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
             akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
-      - deploy:
+      - run:
           name: "Activation in Progress"
           command: while :; do OUTPUT=`akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY | awk '/PRESUBMIT|PENDING|IN_PROGRESS/ { print $4 }'`; if [ -z $OUTPUT ]; then echo Activation COMPLETE; break; else sleep 5; fi; done
   test:
