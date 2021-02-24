@@ -23,8 +23,8 @@ jobs:
       - run:
           name: Create Artifact
           command: |
-            echo -e "{\n"edgeworker-version":\"$EWVERSION\",\n"description":"123456789"\n}" > bundle.json
-            tar -czvf ./$BUNDLENAME main.js bundle.json
+            echo -e "{"edgeworker-version":\"$EWVERSION\","description":\"$DESCRIPTION\"}" > bundle.json
+            tar -czvf ./$BUNDLENAME main.js bundle.json edgekv.js edgekv_tokens.js  
       - store_artifacts:
           path: jaescalo-testing.tgz
       - run: 
