@@ -27,7 +27,7 @@ jobs:
             tar -czvf ./$BUNDLENAME main.js bundle.json
       
       - store_artifacts:
-          path: $CIRCLE_WORKING_DIRECTORY/jaescalo-testing.tgz
+          path: /$CIRCLE_WORKING_DIRECTORY/jaescalo-testing.tgz
           destination: jaescalo-testing.tgz
 
       - run: 
