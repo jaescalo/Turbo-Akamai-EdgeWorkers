@@ -9,7 +9,7 @@ jobs:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.42
+      EWVERSION: 0.43
       EWID: 4885
       ACCOUNTKEY: 1-6JHGX
       BUNDLENAME: jaescalo-testing.tgz
@@ -28,7 +28,6 @@ jobs:
       
       - store_artifacts:
           path: jaescalo-testing.tgz
-          destination: jaescalo-testing.tgz
 
       - run: 
           name: Upload Artifact
