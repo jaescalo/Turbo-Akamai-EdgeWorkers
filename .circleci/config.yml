@@ -27,8 +27,8 @@ jobs:
             tar -czvf ./$BUNDLENAME main.js bundle.json
       
       - store_artifacts:
-          path: /root/edgeworkers/${BUNDLENAME}
-          destination: ${BUNDLENAME}
+          path: $CIRCLE_WORKING_DIRECTORY/jaescalo-testing.tgz
+          destination: jaescalo-testing.tgz
 
       - run: 
           name: Upload Artifact
