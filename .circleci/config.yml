@@ -24,13 +24,11 @@ jobs:
           name: Create Artifact
           command: |
             echo "{"edgeworker-version":\"$EWVERSION\","description":\"$DESCRIPTION\"}" > bundle.json
-            tar -czvf ./$BUNDLENAME main.js bundle.json
-      
+            tar -czvf ./$BUNDLENAME main.js bundle.json edgekv.js edgekv_tokens.js  
       - store_artifacts:
           path: jaescalo-testing.tgz
-
       - run: 
-          name: Upload Artifact
+          name: Upload and Activate EW Bundle
           command: |
             akamai ew upload --bundle ./$BUNDLENAME $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
             akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
