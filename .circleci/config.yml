@@ -1,19 +1,15 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-orbs:
-  node: circleci/node@4.1.0
-
 jobs:
   build:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.45
+      EWVERSION: 1.53
       EWID: 4885
-      ACCOUNTKEY: 1-6JHGX
-      BUNDLENAME: jaescalo-testing.tgz
-      DESCRIPTION: "Testing deploy command"
+      BUNDLENAME: ew-bundle.tgz
+      DESCRIPTION: "EW Deployment Automation with CircleCI"
     working_directory: /root/edgeworkers
     steps:
       - checkout
@@ -23,10 +19,11 @@ jobs:
       - run:
           name: Create Artifact
           command: |
-            echo -e "{\n\t"edgeworker-version":\"$EWVERSION\",\n\t"description":\"$DESCRIPTION\"\n}" > bundle.json
-            tar -czvf ./$BUNDLENAME main.js bundle.json
+            sed -i 's|EWVERSION|'$EWVERSION'|g' bundle.json
+            sed -i "s|DESCRIPTION|$DESCRIPTION|g" bundle.json
+            tar -czvf ./$BUNDLENAME main.js bundle.json find-replace-stream.js
       - store_artifacts:
-          path: jaescalo-testing.tgz
+          path: ew-bundle.tgz
       - run: 
           name: Upload and Activate EW Bundle
           command: |
@@ -36,11 +33,10 @@ jobs:
       - run:
           name: "Activation in Progress"
           command: while :; do OUTPUT=`akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY | awk '/PRESUBMIT|PENDING|IN_PROGRESS/ { print $4 }'`; if [ -z $OUTPUT ]; then echo Activation COMPLETE; break; else sleep 5; fi; done
-  test:
-    executor: node/default
-    steps:
-      - store_test_results:
-          path: test
+      - run:
+          name: "Enable Enhanced Debugging Token"
+          command: |
+            akamai ew --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY auth --expiry 60 --acl /json-inline-demo --network staging $HOSTNAME || true 
 
 workflows:
   build_and_test:
@@ -48,19 +44,7 @@ workflows:
       - build:
           context:
             - edgerc
-          pre-steps:
-            - run:
-                name: "Install curl"
-                command: apk --no-cache add curl
-            - run:
-                name: "Install jFrog CLI"
-                command: |
-                  cd /root
-                  curl -fL https://getcli.jfrog.io | sh
-                  ls -lhart
           post-steps:
             - run: 
                 name: "Remove .edgerc"
                 command: rm -r .edgerc
-      #- node/test
-      #- test

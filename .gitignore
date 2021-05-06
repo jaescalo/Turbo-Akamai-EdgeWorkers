@@ -5,6 +5,7 @@ demo_site_data/
 test/
 package*
 lib.js
+*.bkp
 
 # Logs
 logs

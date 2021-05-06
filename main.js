@@ -1,30 +1,24 @@
-/// <reference types="akamai-edgeworkers"/>
-import { logger }  from 'log';
+/*
+(c) Copyright 2020 Akamai Technologies, Inc. Licensed under Apache 2 license.
+Version: 0.2
+Purpose:  EdgeWorker that generates a simple html page at the Edge and adds a response header
+Repo: https://github.com/akamai/edgeworkers-examples/tree/master/hello-world
+*/
 
-export function onOriginResponse(request, response) {
-    // Call function to set the Edge-Cache-Tag Header
-    response.setHeader('Edge-Cache-Tag', getCacheTagsForPath(request.path));
+// Import logging module
+import { logger } from 'log';
+
+export function onClientRequest (request) {
+  // Outputs a message to the X-Akamai-EdgeWorker-onClientRequest-Log header.
+  logger.log('Responding with hello world from the path: %s', request.path);
+  request.respondWith(
+    200, {},
+    '<html><body><h1>Hello World From Akamai EdgeWorkers</h1></body></html>');
 }
 
-export function onClientResponse(request, response) {
-    logger.log("Adding a header in ClientResponse");
-    response.setHeader('My-Edge-Cache-Tag', sum(10,20));
-    response.setHeader('Get-Cache-Tags-For-Path', getCacheTagsForPath(request.path))
-}
+export function onClientResponse (request, response) {
+  // Outputs a message to the X-Akamai-EdgeWorker-onClientResponse-Log header.
+  logger.log('Adding a header in ClientResponse');
 
-// Get the Cache Tag value based on the request path
-function getCacheTagsForPath(path) {
-    const cacheTagPrefix = 'path--';
-    const cacheTagFolderSeparator = '|';
-    const folderNames = path.split('/');
-    const cacheTags = [];
-    for (let i = 1; i < folderNames.length; i++) {
-        cacheTags.push(cacheTagPrefix + cacheTagFolderSeparator + folderNames.slice(1, i + 1).join(cacheTagFolderSeparator));
-    }
-    logger.log("Responding with hello message from the path: %s", cacheTags.join(','))
-    return '' + cacheTags.join(',');
-}
-
-export function sum(a, b) {
-    return a + b;
+  response.setHeader('X-Hello-World', 'From Akamai EdgeWorkers');
 }
