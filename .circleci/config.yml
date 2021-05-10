@@ -37,7 +37,7 @@ jobs:
           command: |
             sed -i 's|EWVERSION|'$EWVERSION'|g' bundle.json
             sed -i "s|DESCRIPTION|$DESCRIPTION|g" bundle.json
-            tar -czvf ./$BUNDLENAME `find ./ | grep '.js\|.json'`
+            tar -czvf ./$BUNDLENAME *.js *.json
       - store_artifacts:
           path: ew-bundle.tgz
       - run: 
