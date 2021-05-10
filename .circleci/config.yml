@@ -4,14 +4,14 @@ version: 2.1
 parameters:
   edgekv:
     type: boolean
-    default: true
+    default: false
 
 jobs:
   build:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.46
+      EWVERSION: 0.47
       EWID: 4885
       BUNDLENAME: ew-bundle.tgz
       DESCRIPTION: "EW Deployment Automation with CircleCI - Support for EdgeKV"
@@ -37,7 +37,7 @@ jobs:
           command: |
             sed -i 's|EWVERSION|'$EWVERSION'|g' bundle.json
             sed -i "s|DESCRIPTION|$DESCRIPTION|g" bundle.json
-            tar -czvf ./$BUNDLENAME *.js bundle.json
+            tar -czvf ./$BUNDLENAME $( find -name "*.js" -or -name "*.json" )
       - store_artifacts:
           path: ew-bundle.tgz
       - run: 
