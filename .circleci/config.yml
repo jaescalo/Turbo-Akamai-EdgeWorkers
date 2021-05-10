@@ -22,7 +22,8 @@ jobs:
           name: "Build .edgerc file"
           command: echo -e "[default]\nclient_secret = $CLIENT_SECRET\nhost = $HOST\naccess_token = $ACCESS_TOKEN\nclient_token = $CLIENT_TOKEN" > .edgerc
       
-      - when: << pipeline.parameters.edgekv >>
+      - when: 
+          condition: << pipeline.parameters.edgekv >>
           steps: 
             - run: 
                 name: "Add token to edgekv_tokens.js file"
