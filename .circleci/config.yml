@@ -1,27 +1,42 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+parameters:
+  edgekv:
+    type: boolean
+    default: false
+
 jobs:
   build:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 1.53
+      EWVERSION: 0.46
       EWID: 4885
       BUNDLENAME: ew-bundle.tgz
-      DESCRIPTION: "EW Deployment Automation with CircleCI"
+      DESCRIPTION: "EW Deployment Automation with CircleCI - Support for EdgeKV"
     working_directory: /root/edgeworkers
     steps:
       - checkout
       - run: 
           name: "Build .edgerc file"
           command: echo -e "[default]\nclient_secret = $CLIENT_SECRET\nhost = $HOST\naccess_token = $ACCESS_TOKEN\nclient_token = $CLIENT_TOKEN" > .edgerc
+      
+      - when: << pipeline.parameters.edgekv >>
+          steps: 
+            - run: 
+                name: "Add token to edgekv_tokens.js file"
+                command: |
+                  sed -i 's|EDGEKV_NAMESPACE|'$EDGEKV_NAMESPACE'|g' edgekv_tokens.js
+                  sed -i 's|EDGEKV_TOKEN_NAME|'$EDGEKV_TOKEN_NAME'|g' edgekv_tokens.js
+                  sed -i 's|EDGEKV_TOKEN_VALUE|'$EDGEKV_TOKEN_VALUE'|g' edgekv_tokens.js
+      
       - run:
           name: Create Artifact
           command: |
             sed -i 's|EWVERSION|'$EWVERSION'|g' bundle.json
             sed -i "s|DESCRIPTION|$DESCRIPTION|g" bundle.json
-            tar -czvf ./$BUNDLENAME main.js bundle.json find-replace-stream.js
+            tar -czvf ./$BUNDLENAME *.js bundle.json
       - store_artifacts:
           path: ew-bundle.tgz
       - run: 
