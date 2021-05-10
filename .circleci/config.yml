@@ -4,7 +4,7 @@ version: 2.1
 parameters:
   edgekv:
     type: boolean
-    default: false
+    default: true
 
 jobs:
   build:
