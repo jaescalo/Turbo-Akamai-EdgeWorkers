@@ -5,9 +5,9 @@ parameters:
   edgekv:
     type: boolean
     default: false
-  network:
-    type: string
-    default: production
+  production:
+    type: boolean
+    default: true
 
 jobs:
   build:
@@ -51,7 +51,7 @@ jobs:
             akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       
       - when: 
-          condition: [ production, << pipeline.parameters.network >> ] 
+          condition: << pipeline.parameters.production >>
           steps: 
             - run: 
                 name: "Add token to edgekv_tokens.js file"
