@@ -5,13 +5,16 @@ parameters:
   edgekv:
     type: boolean
     default: false
+  network:
+    type: string
+    default: production
 
 jobs:
   build:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.48
+      EWVERSION: 0.49
       EWID: 4885
       BUNDLENAME: ew-bundle.tgz
       DESCRIPTION: "EW Deployment Automation with CircleCI - Support for EdgeKV"
@@ -46,6 +49,14 @@ jobs:
             akamai ew upload --bundle ./$BUNDLENAME $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
             akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
             akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
+      
+      - when: 
+          condition: [ production, << pipeline.parameters.network >> ] 
+          steps: 
+            - run: 
+                name: "Add token to edgekv_tokens.js file"
+                command: akamai ew activate $EWID PRODUCTION $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
+
       - run:
           name: "Activation in Progress"
           command: while :; do OUTPUT=`akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY | awk '/PRESUBMIT|PENDING|IN_PROGRESS/ { print $4 }'`; if [ -z $OUTPUT ]; then echo Activation COMPLETE; break; else sleep 5; fi; done
