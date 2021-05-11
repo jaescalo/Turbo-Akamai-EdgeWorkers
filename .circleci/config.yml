@@ -7,14 +7,14 @@ parameters:
     default: false
   production:
     type: boolean
-    default: false
+    default: true
 
 jobs:
   build:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.50
+      EWVERSION: 0.51
       EWID: 4885
       BUNDLENAME: ew-bundle.tgz
       DESCRIPTION: "EW Deployment Automation with CircleCI - Support for EdgeKV"
