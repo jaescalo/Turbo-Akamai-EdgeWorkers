@@ -5,47 +5,58 @@ Demo for bundling, saving, activating and generating enhanced debugging headers 
 
 The actual EdgeWorkers example is based on the [hello-world](https://github.com/akamai/edgeworkers-examples/tree/master/hello-world) example in the official Akamai repository.
 
+![CircleCI Pipeline](http://jaescalo.test.edgekey.net/images/CircleCI-flow.jpg)
+
 ## Prerequisites/Tools
 - GitHub account and repository
+- Akamai EdgeWorkers Enabled. Edge Key Value is Optional.
 - [CircleCI Account](https://app.circleci.com/dashboard)
 - [EdgeWorkers Docker](https://hub.docker.com/r/akamai/edgeworkers)
 - [EdgeWorkers CLI](https://github.com/akamai/cli-edgeworkers)
+- Understand basic file manipulation with `echo` and `sed`
 
-
-## EdgeWorkers Required Files Setup
-The main.js and bundle.json files are required to create the *.tgz bundle to upload to Akamai EdgeWorkers. 
-
-- main.js: contains the javascript code for the functions to execute at the edge.
-- bundle.json: contains information about the EdgeWorkers artifact/bundle. In this example it is parametrized so that the EdgeWorkers version and Description fields are populated from values set in the `.circleci.yml`.
-
-The bundle.json template looks like
-
-`{
-    "edgeworker-version": "EWVERSION",
-    "bundle-version" : 5,
-    "api-version" : "1.0",
-    "description" : "DESCRIPTION",
-    "misc" : {
-        "author" : "Obi Wan Kenobi"
-     }
-}`
-
-The EWVERSION and DESCRIPTION values will be replaced by the respective values set in the `.circleci.yml`. By doing this we avoid modifying the bundle.json manually on every deployment.
+## Quick Setup
+Follow the instructions to the line to run this same example in your Akamai EdgeWorkers environment.
+1. Clone this repository and push it to your own repository. 
+2. Modify the `.circleci.yml` configuration by adding your own values to the environmental variables `EWVERSION`, `DESCRIPTION` and `EWID`. For example:
+```
+    environment:
+      EWVERSION: 0.49
+      EWID: 4885
+      BUNDLENAME: ew-bundle.tgz
+      DESCRIPTION: "EW Deployment Automation with CircleCI"
+```
+3. Set up a CircleCI Context named **edgerc** with all the variables labeled as “CircleCI Context” from the table below. If you’re not use Edge Key Value then ignore the EDGEKV_* variables. [Instructions](https://circleci.com/docs/2.0/contexts/)
+4. Set up a CircleCI project with GitHub. [Instructions](https://circleci.com/docs/2.0/getting-started/)
+5. Commit your changes to your GitHub repository and watch the pipeline execute.
 
 ## CircleCI Setup
-CircleCI is used to automate the deployment for this EdgeWorker on each `git commit` to the repository. The asociated configuration is in the `.circleci.yml` file.
+The different configuration files are parametrized and we need to define these parameters or variables first.
 
-[CircleCI Contexts](https://circleci.com/docs/2.0/contexts/]) is are used to pass on sensitive information in variables to the configuration file `.circleci.yml`. The following variables should be managed under CirecleCI Contexts for this example. 
+* In CircleCI Context set up the variables that will be used directly by the `.circleci.yml` file. These variables may contain sensitive information (values are obscured) and the values do not change frequently. Instructions here ALOHA POST.
+* In the `.circleci.yml` configuration the local variables can be changed on every execution of the pipeline to adjust to each case and these do not contain sensitive information.
+* In the `.circleci.yml` configuration file there are parameters which can be modified for conditional execution of blocks within the pipeline.
 
-### Account Info Variables
-- $ACCOUNTKEY: Optional. Used to switch between accounts. If not needed remove all associations and the `--accountkey` flag from the commands.
-- $HOSTNAME: Hostname associated to the property running EdegeWorkers. Used to create the enhanced debugging token.
-
-### Akamai API Credential Variables
-- $ACCESS_TOKEN
-- $HOST
-- $CLIENT_SECRET
-- $CLIENT_TOKEN
+These are the variables and parameters to setup and modify. Keep the same names in the table below.
+| Variable Name | Value (Example) | Location | Description |
+| --- | --- |  --- |  --- | 
+| CLIENT_SECRET | ***** | CircleCI Context | API Credential. Used to build the .edgerc file. |
+| HOST | ***** | CircleCI Context | API Credential. Used to build the .edgerc file. |
+| ACCESS_TOKEN | ***** | CircleCI Context | API Credential. Used to build the .edgerc file. |
+| CLIENT_TOKEN | ***** | CircleCI Context | API Credential. Used to build the .edgerc file. |
+| HOST | ***** | CircleCI Context | Hostname used to create the Enhanced Debug Token |
+| ACCOUNTKEY | ***** | CircleCI Context | The account ID. Used to switch between accounts. If not needed remove the ‘accountkey’ flag from the commands. |
+| EDGEKV_NAMESPACE | ***** | CircleCI Context | [OPTIONAL] Namespace if EdgeKV is enabled. Used to build the edgekv_tokens.js file. |
+| EDGEKV_TOKEN_NAME | ***** | CircleCI Context | [OPTIONAL] Token Name if EdgeKV is enabled. Used to build the edgekv_tokens.js file.  |
+| EDGEKV_TOKEN_VALUE | ***** | CircleCI Context | [OPTIONAL] Token Value if EdgeKV is enabled. Used to build the edgekv_tokens.js file.  |
+| EWVERSION | 2.55 | circleci.yml: environment block | EdgeWorkers version. This should increment on each execution. |
+| EWID | 1234 | circleci.yml: environment block | EdgeWorkers ID |
+| BUNDLENAME | my_bundle.tgz | circleci.yml: environment block | The name for the bundle file. Used to update the bundle.json file. |
+| DESCRIPTION | Hello World Example | circleci.yml: environment block | The description of the EdgeWorker. Used to update the bundle.json file. |
+| edgekv | Boolean (true || false) | circleci.yml: parameter block | ‘true’ if EdgeKV is enabled |
+| ‘false’ if EdgeKV is not enabled |
+| production | Boolean (true || false) | circleci.yml: parameter block | ‘true’ to push to production and staging |
+| ‘false’ to push only to staging |
 
 ## More details on EdgeWorkers
 - [Akamai EdgeWorkers](https://developer.akamai.com/akamai-edgeworkers-overview)
