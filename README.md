@@ -53,10 +53,8 @@ These are the variables and parameters to setup and modify. Keep the same names 
 | EWID | 1234 | circleci.yml: environment block | EdgeWorkers ID |
 | BUNDLENAME | my_bundle.tgz | circleci.yml: environment block | The name for the bundle file. Used to update the bundle.json file. |
 | DESCRIPTION | Hello World Example | circleci.yml: environment block | The description of the EdgeWorker. Used to update the bundle.json file. |
-| edgekv | Boolean (true || false) | circleci.yml: parameter block | ‘true’ if EdgeKV is enabled |
-| ‘false’ if EdgeKV is not enabled |
-| production | Boolean (true || false) | circleci.yml: parameter block | ‘true’ to push to production and staging |
-| ‘false’ to push only to staging |
+| edgekv | Boolean (true || false) | circleci.yml: parameter block | ‘true’ if EdgeKV is enabled and ‘false’ if EdgeKV is not enabled |
+| production | Boolean (true || false) | circleci.yml: parameter block | ‘true’ to push to production and staging and ‘false’ to push only to staging |
 
 ## More details on EdgeWorkers
 - [Akamai EdgeWorkers](https://developer.akamai.com/akamai-edgeworkers-overview)
