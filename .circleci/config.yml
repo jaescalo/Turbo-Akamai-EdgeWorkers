@@ -24,7 +24,6 @@ jobs:
       - run: 
           name: "Build .edgerc file"
           command: echo -e "[default]\nclient_secret = $CLIENT_SECRET\nhost = $HOST\naccess_token = $ACCESS_TOKEN\nclient_token = $CLIENT_TOKEN" > .edgerc
-      
       - when: 
           condition: << pipeline.parameters.edgekv >>
           steps: 
@@ -47,25 +46,23 @@ jobs:
           name: "Activate EdgeWorkers to Staging"
           command: |
             akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
-            akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
-      
+            akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY    
       - when: 
           condition: << pipeline.parameters.production >>
           steps: 
             - run: 
                 name: "Activate EdgeWorkers to Production"
                 command: akamai ew activate $EWID PRODUCTION $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
-
       - run:
           name: "Activation in Progress"
           command: while :; do OUTPUT=`akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY | awk '/PRESUBMIT|PENDING|IN_PROGRESS/ { print $4 }'`; if [ -z $OUTPUT ]; then echo Activation COMPLETE; break; else sleep 5; fi; done
       - run:
           name: "Enable Enhanced Debugging Token"
           command: |
-            akamai ew --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY auth --expiry 60 --acl /json-inline-demo --network staging $HOSTNAME || true 
+            akamai ew --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY auth --expiry 60 --acl / --network staging $HOSTNAME || true 
 
 workflows:
-  build_and_test:
+  build_and_deploy:
     jobs:
       - build:
           context:
