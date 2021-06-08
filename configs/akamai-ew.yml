@@ -36,7 +36,7 @@ jobs:
           name: "Create and Upload Artifact"
           command: |
             cat bundle.json
-            cat ./configs/akamai-ew.yml
+            cat ./configs/akamai-ew2.yml
             tar -czvf ./$BUNDLENAME $( find -name "*.js" -or -name "*.json" | cut -c 3-)
             akamai ew upload --bundle ./$BUNDLENAME $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - store_artifacts:
