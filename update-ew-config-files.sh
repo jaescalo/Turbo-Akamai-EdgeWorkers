@@ -15,4 +15,4 @@ sed -i 's|USE_EDGEKV|'$USE_EDGEKV'|g' ./configs/akamai-ew.yml
 sed -i 's|ACTIVATE_PRODUCTION|'$ACTIVATE_PRODUCTION'|g' ./configs/akamai-ew.yml
 
 # Copying to an alternate temporary config file. Not the original one.
-cp ./configs/akamai-ew.yml ./configs/akamai-ew_temp.yml
+# cp ./configs/akamai-ew.yml ./configs/akamai-ew_temp.yml
