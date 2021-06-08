@@ -7,7 +7,6 @@ USE_EDGEKV=$3 #Push to production? (true|false)
 ACTIVATE_PRODUCTION=$4 #Use EdgeKV? (true|false)
 
 # Update the bundle.json
-sed -i 's|EWVERSION|'$EWVERSION'|g' bundle.json
 sed -i "s|DESCRIPTION|$DESCRIPTION|g" bundle.json
 
 # Update the akamai-ew.yml

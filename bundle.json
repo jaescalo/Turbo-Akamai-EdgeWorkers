@@ -1,5 +1,5 @@
 {
-    "edgeworker-version": "EWVERSION",
+    "edgeworker-version": "EW_NEW_VERSION",
     "bundle-version" : 5,
     "api-version" : "1.0",
     "description" : "DESCRIPTION",
