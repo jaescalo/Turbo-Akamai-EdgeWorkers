@@ -1,5 +1,5 @@
 #!/bin/bash 
-set -o pipefail
+set -eo pipefail
 
 EWVERSION=$1 #Edgeworkers Version
 DESCRIPTION=$2 #Description
