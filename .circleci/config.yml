@@ -14,6 +14,8 @@ jobs:
           command: |
             #The generate script has 2 arguments: 1) Edgeworkers Version 2) Description 3) Push to production? (true|false) 4) Uses EdgeKV? (true|false)
             ./update-ew-config-files.sh 0.52 "Test for CircleCI Dynamic Configs" false false
+            cat bundle.json
+            cat ./configs/akamai-ew.yml
       - continuation/continue:
           parameters: '{}'
           configuration_path: configs/akamai-ew.yml
