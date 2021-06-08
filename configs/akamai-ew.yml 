@@ -4,20 +4,19 @@ version: 2.1
 parameters:
   edgekv:
     type: boolean
-    default: false
+    default: USE_EDGEKV
   production:
     type: boolean
-    default: true
+    default: ACTIVATE_PRODUCTION
 
 jobs:
   build:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.51
+      EW_NEW_VERSION: EWVERSION
       EWID: 4885
       BUNDLENAME: ew-bundle.tgz
-      DESCRIPTION: "EW Deployment Automation with CircleCI - Support for EdgeKV"
     working_directory: /root/edgeworkers
     steps:
       - checkout
@@ -36,8 +35,6 @@ jobs:
       - run:
           name: "Create and Upload Artifact"
           command: |
-            sed -i 's|EWVERSION|'$EWVERSION'|g' bundle.json
-            sed -i "s|DESCRIPTION|$DESCRIPTION|g" bundle.json
             tar -czvf ./$BUNDLENAME $( find -name "*.js" -or -name "*.json" | cut -c 3-)
             akamai ew upload --bundle ./$BUNDLENAME $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - store_artifacts:
@@ -45,17 +42,17 @@ jobs:
       - run: 
           name: "Activate EdgeWorkers to Staging"
           command: |
-            akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
-            akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY    
+            akamai ew activate $EWID STAGING $EW_NEW_VERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
+            akamai ew status $EWID --versionId $EW_NEW_VERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY    
       - when: 
           condition: << pipeline.parameters.production >>
           steps: 
             - run: 
                 name: "Activate EdgeWorkers to Production"
-                command: akamai ew activate $EWID PRODUCTION $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
+                command: akamai ew activate $EWID PRODUCTION $EW_NEW_VERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
       - run:
           name: "Activation in Progress"
-          command: while :; do OUTPUT=`akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY | awk '/PRESUBMIT|PENDING|IN_PROGRESS/ { print $4 }'`; if [ -z $OUTPUT ]; then echo Activation COMPLETE; break; else sleep 5; fi; done
+          command: while :; do OUTPUT=`akamai ew status $EWID --versionId $EW_NEW_VERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY | awk '/PRESUBMIT|PENDING|IN_PROGRESS/ { print $4 }'`; if [ -z $OUTPUT ]; then echo Activation COMPLETE; break; else sleep 5; fi; done
       - run:
           name: "Enable Enhanced Debugging Token"
           command: |
