@@ -54,7 +54,7 @@ jobs:
       EWID: 4885
     working_directory: /root/edgeworkers
     steps:  
-      - attach-workspace:
+      - attach_workspace:
           at: /root/edgeworkers
       - run: 
           name: "Activate EdgeWorkers to Staging"
