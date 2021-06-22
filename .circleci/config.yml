@@ -14,7 +14,7 @@ jobs:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.58
+      EWVERSION: 0.59
       EWID: 4885
       BUNDLENAME: ew-bundle.tgz
       DESCRIPTION: "EW Deployment Automation with CircleCI - Support for EdgeKV"
@@ -57,7 +57,7 @@ jobs:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.52
+      EWVERSION: 0.59
       EWID: 4885
     working_directory: /root/edgeworkers
     steps:  
@@ -66,6 +66,8 @@ jobs:
       - run: 
           name: "Activate EdgeWorkers to Staging"
           command: |
+            pwd
+            ls
             akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
             akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY    
       - when: 
