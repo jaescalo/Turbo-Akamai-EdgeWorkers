@@ -76,6 +76,7 @@ jobs:
       - run:
           name: "Enable Enhanced Debugging Token"
           command: |
+            # This only enables the debugging header as a first step for testing, but more testing logic can be added
             akamai ew --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY auth --expiry 60 --acl / --network staging $HOSTNAME || true 
 
 workflows:

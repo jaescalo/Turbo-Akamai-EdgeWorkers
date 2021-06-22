@@ -10,7 +10,7 @@ jobs:
     
     # Modify the following variables as needed for each deployment 1) Edgeworkers Version 2) Description 3) Push to production? (true|false) 4) Uses EdgeKV? (true|false)
     environment:
-      EW_NEW_VERSION: 0.69
+      EW_NEW_VERSION: 0.71
       DESCRIPTION: "Test for CircleCI Dynamic Configs"
       USE_EDGEKV: false
       ACTIVATE_PRODUCTION: false
