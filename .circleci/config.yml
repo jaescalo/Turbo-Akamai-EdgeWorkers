@@ -26,12 +26,8 @@ jobs:
           command: |
             pwd
             ls -lhart
-            mkdir temporal
-            touch ./temporal/test.txt
-            cd temporal
-            ls
       - persist_to_workspace:
-          root: temporal
+          root: ~/
           paths: .
       - run: 
           name: "Build .edgerc file"
