@@ -16,8 +16,7 @@ executors:
 
 jobs:
   build:
-    executor:
-      - name: akamai-ew-cli-docker
+    executor: akamai-ew-cli-docker
     environment:
       EWVERSION: 0.63
       EWID: 4885
@@ -59,8 +58,7 @@ jobs:
           path: ew-bundle.tgz
   
   deploy:
-    executor:
-      - name: akamai-ew-cli-docker
+    executor: akamai-ew-cli-docker
     environment:
       EWVERSION: 0.63
       EWID: 4885
