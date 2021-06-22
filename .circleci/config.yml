@@ -14,7 +14,7 @@ jobs:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.61
+      EWVERSION: 0.62
       EWID: 4885
       BUNDLENAME: ew-bundle.tgz
       DESCRIPTION: "EW Deployment Automation with CircleCI - Support for EdgeKV"
@@ -28,9 +28,6 @@ jobs:
             ls -lhart
             cd ~
             pwd
-      - persist_to_workspace:
-          root: ~/
-          paths: edgeworkers
       - run: 
           name: "Build .edgerc file"
           command: echo -e "[default]\nclient_secret = $CLIENT_SECRET\nhost = $HOST\naccess_token = $ACCESS_TOKEN\nclient_token = $CLIENT_TOKEN" > .edgerc
@@ -50,6 +47,9 @@ jobs:
             sed -i "s|DESCRIPTION|$DESCRIPTION|g" bundle.json
             tar -czvf ./$BUNDLENAME $( find -name "*.js" -or -name "*.json" | cut -c 3-)
             akamai ew upload --bundle ./$BUNDLENAME $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
+      - persist_to_workspace:
+          root: ~/
+          paths: edgeworkers
       - store_artifacts:
           path: ew-bundle.tgz
   
@@ -57,7 +57,7 @@ jobs:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.61
+      EWVERSION: 0.62
       EWID: 4885
     working_directory: /root/edgeworkers
     steps:  
