@@ -21,7 +21,7 @@ Follow the instructions to the line to run this same example in your Akamai Edge
 2. Modify the `.circleci/config.yml` configuration by adding your own values to the environmental variables `EWVERSION`, `DESCRIPTION` and `EWID`. For example:
 ```
     environment:
-      EWVERSION: 0.46
+      EWVERSION: 0.43
       EWID: 4885
       BUNDLENAME: ew-bundle.tgz
       DESCRIPTION: "EW Deployment Automation with CircleCI"
