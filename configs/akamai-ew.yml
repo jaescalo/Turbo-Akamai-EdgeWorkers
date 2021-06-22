@@ -10,15 +10,20 @@ parameters:
     type: boolean
     default: ACTIVATE_PRODUCTION
 
-jobs:
-  build:
+executors:
+  akamai-ew-cli-docker:
     docker:
       - image: akamai/edgeworkers
+    working_directory: /root/edgeworkers
     environment:
-      EW_NEW_VERSION: EWVERSION
+      EWVERSION: EWVERSION
       EWID: 4885
       BUNDLENAME: ew-bundle.tgz
-    working_directory: /root/edgeworkers
+      DESCRIPTION: "EW Deployment Automation with CircleCI - Support for EdgeKV"
+
+jobs:
+  build:
+    executor: akamai-ew-cli-docker
     steps:
       - checkout
       - run: 
@@ -39,8 +44,16 @@ jobs:
             sed -i 's|EW_NEW_VERSION|'$EW_NEW_VERSION'|g' bundle.json
             tar -czvf ./$BUNDLENAME $( find -name "*.js" -or -name "*.json" | cut -c 3-)
             akamai ew upload --bundle ./$BUNDLENAME $EWID --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
+      - persist_to_workspace:
+          root: ~/
+          paths: edgeworkers
       - store_artifacts:
           path: ew-bundle.tgz
+  deploy:
+    executor: akamai-ew-cli-docker
+    steps:  
+      - attach_workspace:
+          at: /root      
       - run: 
           name: "Activate EdgeWorkers to Staging"
           command: |
@@ -55,15 +68,30 @@ jobs:
       - run:
           name: "Activation in Progress"
           command: while :; do OUTPUT=`akamai ew status $EWID --versionId $EW_NEW_VERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY | awk '/PRESUBMIT|PENDING|IN_PROGRESS/ { print $4 }'`; if [ -z $OUTPUT ]; then echo Activation COMPLETE; break; else sleep 5; fi; done
+  test:
+    executor: akamai-ew-cli-docker  
+    steps:  
+      - attach_workspace:
+          at: /root      
       - run:
           name: "Enable Enhanced Debugging Token"
           command: |
             akamai ew --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY auth --expiry 60 --acl / --network staging $HOSTNAME || true 
 
 workflows:
-  build_and_deploy:
+  ew_pipeline:
     jobs:
       - build:
+          context:
+            - edgerc
+      - deploy:
+          requires:
+            - build
+          context:
+            - edgerc
+      - test:
+          requires:
+            - deploy
           context:
             - edgerc
           post-steps:
