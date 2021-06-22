@@ -15,7 +15,7 @@ executors:
       - image: akamai/edgeworkers
     working_directory: /root/edgeworkers
     environment:
-      EWVERSION: 0.65
+      EWVERSION: 0.66
       EWID: 4885
       BUNDLENAME: ew-bundle.tgz
       DESCRIPTION: "EW Deployment Automation with CircleCI - Support for EdgeKV"
@@ -25,13 +25,6 @@ jobs:
     executor: akamai-ew-cli-docker
     steps:
       - checkout
-      - run:
-          name: "Deugging"
-          command: |
-            pwd
-            ls -lhart
-            cd ~
-            pwd
       - run: 
           name: "Build .edgerc file"
           command: echo -e "[default]\nclient_secret = $CLIENT_SECRET\nhost = $HOST\naccess_token = $ACCESS_TOKEN\nclient_token = $CLIENT_TOKEN" > .edgerc
@@ -65,8 +58,6 @@ jobs:
       - run: 
           name: "Activate EdgeWorkers to Staging"
           command: |
-            pwd
-            ls
             akamai ew activate $EWID STAGING $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY
             akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY    
       - when: 

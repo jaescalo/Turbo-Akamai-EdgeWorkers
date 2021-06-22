@@ -31,6 +31,7 @@ Follow the instructions to the line to run this same example in your Akamai Edge
 5. Commit your changes to your GitHub repository and watch the pipeline execute.
 
 ## CircleCI Setup
+A workflow is defined in the `.circleci/config.yml` file which is comprised of the build, deploy and test jobs to exemplify a DevOps pipeline.
 The different configuration files are parametrized and we need to define these parameters or variables first.
 
 * In CircleCI Context set up the variables that will be used directly by the `.circleci/config.yml` file. These variables may contain sensitive information (values are obscured) and the values do not change frequently. Instructions here ALOHA POST.
@@ -57,8 +58,7 @@ These are the variables and parameters to setup and modify. Keep the same names 
 | production | Boolean (true \|\| false) | .circleci/config.yml: parameter block | ‘true’ to push to production and staging and ‘false’ to push only to staging |
 
 ## Future Improvements
-* Use CircleCI Workflows to separate the pipeline into jobs. This allow for more flexibility and debugging.
-* Add test jobs.
+* Add actual test jobs examples to test EW's code.
 
 ## More details on EdgeWorkers
 - [Akamai EdgeWorkers](https://developer.akamai.com/akamai-edgeworkers-overview)
