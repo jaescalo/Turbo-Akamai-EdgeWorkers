@@ -21,6 +21,11 @@ jobs:
     working_directory: /root/edgeworkers
     steps:
       - checkout
+      - run:
+          name: "Deugging"
+          command: |
+            pwd
+            ls -lhart
       - persist_to_workspace:
           root: /
           paths: .
