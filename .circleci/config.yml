@@ -105,5 +105,3 @@ workflows:
             - run: 
                 name: "Remove .edgerc"
                 command: rm -r .edgerc
-
-      - test: 
