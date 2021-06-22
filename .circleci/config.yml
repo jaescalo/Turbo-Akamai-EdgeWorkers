@@ -7,7 +7,7 @@ parameters:
     default: false
   production:
     type: boolean
-    default: true
+    default: false
 
 executors:
   akamai-ew-cli-docker:
@@ -15,7 +15,7 @@ executors:
       - image: akamai/edgeworkers
     working_directory: /root/edgeworkers
     environment:
-      EWVERSION: 0.64
+      EWVERSION: 0.65
       EWID: 4885
       BUNDLENAME: ew-bundle.tgz
       DESCRIPTION: "EW Deployment Automation with CircleCI - Support for EdgeKV"
@@ -78,21 +78,31 @@ jobs:
       - run:
           name: "Activation in Progress"
           command: while :; do OUTPUT=`akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY | awk '/PRESUBMIT|PENDING|IN_PROGRESS/ { print $4 }'`; if [ -z $OUTPUT ]; then echo Activation COMPLETE; break; else sleep 5; fi; done
-      - run:
+  test:
+    executor: akamai-ew-cli-docker  
+    steps:  
+      - attach_workspace:
+          at: /root
+      - run: 
           name: "Enable Enhanced Debugging Token"
           command: |
+            # This only enables the debugging header as a first step for testing, but more testing logic can be added
             akamai ew --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY auth --expiry 60 --acl / --network staging $HOSTNAME || true 
 
 workflows:
-  build_and_deploy:
+  ew_pipeline:
     jobs:
       - build:
           context:
             - edgerc
-
       - deploy:
           requires:
             - build
+          context:
+            - edgerc
+      - test:
+          requires:
+            - deploy
           context:
             - edgerc
           post-steps:
