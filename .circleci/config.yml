@@ -9,12 +9,17 @@ parameters:
     type: boolean
     default: true
 
-jobs:
-  build:
+executors:
+  akamai-ew-cli-docker:
     docker:
       - image: akamai/edgeworkers
+
+jobs:
+  build:
+    executor:
+      - name: akamai/edgeworkers
     environment:
-      EWVERSION: 0.62
+      EWVERSION: 0.63
       EWID: 4885
       BUNDLENAME: ew-bundle.tgz
       DESCRIPTION: "EW Deployment Automation with CircleCI - Support for EdgeKV"
@@ -54,10 +59,10 @@ jobs:
           path: ew-bundle.tgz
   
   deploy:
-    docker:
-      - image: akamai/edgeworkers
+    executor:
+      - name: akamai/edgeworkers
     environment:
-      EWVERSION: 0.62
+      EWVERSION: 0.63
       EWID: 4885
     working_directory: /root/edgeworkers
     steps:  
@@ -100,3 +105,5 @@ workflows:
             - run: 
                 name: "Remove .edgerc"
                 command: rm -r .edgerc
+
+      - test: 
