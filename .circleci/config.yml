@@ -14,7 +14,7 @@ jobs:
     docker:
       - image: akamai/edgeworkers
     environment:
-      EWVERSION: 0.53
+      EWVERSION: 0.58
       EWID: 4885
       BUNDLENAME: ew-bundle.tgz
       DESCRIPTION: "EW Deployment Automation with CircleCI - Support for EdgeKV"
@@ -30,7 +30,7 @@ jobs:
             pwd
       - persist_to_workspace:
           root: ~/
-          paths: .
+          paths: edgeworkers
       - run: 
           name: "Build .edgerc file"
           command: echo -e "[default]\nclient_secret = $CLIENT_SECRET\nhost = $HOST\naccess_token = $ACCESS_TOKEN\nclient_token = $CLIENT_TOKEN" > .edgerc
