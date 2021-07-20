@@ -1,6 +1,8 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+orbs: newman: postman/newman@0.0.2
+
 parameters:
   edgekv:
     type: boolean
@@ -15,7 +17,7 @@ executors:
       - image: akamai/edgeworkers
     working_directory: /root/edgeworkers
     environment:
-      EWVERSION: 0.68
+      EWVERSION: 0.69
       EWID: 4885
       BUNDLENAME: ew-bundle.tgz
       DESCRIPTION: "EW Deployment Automation with CircleCI - Support for EdgeKV"
@@ -69,8 +71,9 @@ jobs:
       - run:
           name: "Activation in Progress"
           command: while :; do OUTPUT=`akamai ew status $EWID --versionId $EWVERSION --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY | awk '/PRESUBMIT|PENDING|IN_PROGRESS/ { print $4 }'`; if [ -z $OUTPUT ]; then echo Activation COMPLETE; break; else sleep 5; fi; done
-  test:
-    executor: akamai-ew-cli-docker  
+
+  debug:
+    executor: akamai-ew-cli-docker
     steps:  
       - attach_workspace:
           at: /root
@@ -79,6 +82,13 @@ jobs:
           command: |
             # This only enables the debugging header as a first step for testing, but more testing logic can be added
             akamai ew --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY auth --expiry 60 --acl / --network staging $HOSTNAME || true 
+
+  test:
+    executor: postman-newman-docker
+    steps:  
+      - checkout
+      - newman/newman-run:
+          collection: https://www.getpostman.com/collections/23635fa6dc0a1b47183d
 
 workflows:
   ew_pipeline:
@@ -91,7 +101,7 @@ workflows:
             - build
           context:
             - edgerc
-      - test:
+      - debug:
           requires:
             - deploy
           context:
@@ -100,3 +110,7 @@ workflows:
             - run: 
                 name: "Remove .edgerc"
                 command: rm -r .edgerc
+      - test:
+          requires:
+            - deploy
+
