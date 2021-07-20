@@ -18,7 +18,7 @@ executors:
       - image: akamai/edgeworkers
     working_directory: /root/edgeworkers
     environment:
-      EWVERSION: 0.72
+      EWVERSION: 0.73
       EWID: 4885
       BUNDLENAME: ew-bundle.tgz
       DESCRIPTION: "EW Deployment Automation with CircleCI - Support for EdgeKV"
@@ -90,6 +90,7 @@ jobs:
       - checkout
       - newman/newman-run:
           collection: https://www.getpostman.com/collections/23635fa6dc0a1b47183d
+          additional-options: --bail
 
 workflows:
   ew_pipeline:

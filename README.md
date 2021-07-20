@@ -57,6 +57,30 @@ These are the variables and parameters to setup and modify. Keep the same names 
 | edgekv | Boolean (true \|\| false) | .circleci/config.yml: parameter block | ‘true’ if EdgeKV is enabled and ‘false’ if EdgeKV is not enabled |
 | production | Boolean (true \|\| false) | .circleci/config.yml: parameter block | ‘true’ to push to production and staging and ‘false’ to push only to staging |
 
+## Postman Testing (OPTIONAL)
+In the job "test" Newman (CLI for Postman) is used to test a collection exposed in a public URL. For this specific job [CircleCI Orbs](https://circleci.com/developer/orbs/orb/postman/newman) are used instead which package and simplifies the process of exectuting actions/commands in the `.circleci/config.yml`.
+If you don't want to use Postman for testing or have other testing frameworks you can delete this block from the `.circleci/config.yml`. Also remove the orb declaration at the top of the file and the "test" job from the "workflow" block as they won't be needed.
+```
+orbs: 
+  newman: postman/newman@0.0.2
+
+...
+
+  test:
+    executor: newman/postman-newman-docker
+    steps:  
+      - checkout
+      - newman/newman-run:
+          collection: https://www.getpostman.com/collections/23635fa6dc0a1b47183d
+          additional-options: --bail
+
+      - test:
+          requires:
+            - deploy
+
+...
+```
+
 ## Future Improvements
 * Add actual test jobs examples to test EW's code.
 
