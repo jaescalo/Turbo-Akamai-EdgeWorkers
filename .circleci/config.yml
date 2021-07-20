@@ -2,7 +2,7 @@
 version: 2.1
 
 orbs: 
-  newman: postman/newman@0.0.2
+  newman: postman/newman@1.0.0
 
 parameters:
   edgekv:
@@ -85,7 +85,7 @@ jobs:
             akamai ew --edgerc /root/edgeworkers/.edgerc --accountkey $ACCOUNTKEY auth --expiry 60 --acl / --network staging $HOSTNAME || true 
 
   test:
-    executor: postman-newman-docker
+    executor: newman/postman-newman-docker
     steps:  
       - checkout
       - newman/newman-run:
