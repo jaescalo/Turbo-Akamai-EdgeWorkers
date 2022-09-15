@@ -1,7 +1,7 @@
 # Automated EdgeWorkers Deployments
 Demo for bundling, saving, activating and generating enhanced debugging headers for EdgeWorkers upon a Git commit. All these steps will be completed within minutes of the repository commit by using CircleCi. 
 
-*Keyword(s):* edgeworkers, circleci, automation<br>
+*Keyword(s):* edgeworkers, circleci, automation
 
 The actual EdgeWorkers example is based on the [hello-world](https://github.com/akamai/edgeworkers-examples/tree/master/edgecompute/examples/getting-started/hello-world%20(EW)) example in the official Akamai repository.
 
