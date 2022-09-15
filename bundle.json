@@ -1,5 +1,5 @@
 {
-    "edgeworker-version": "5.51",
+    "edgeworker-version": "5.52",
     "bundle-version" : 5,
     "api-version" : "1.0",
     "description" : "EW Deployment Automation with CircleCI - Support for EdgeKV",
