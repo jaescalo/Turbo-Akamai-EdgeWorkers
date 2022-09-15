@@ -18,13 +18,11 @@ The actual EdgeWorkers example is based on the [hello-world](https://github.com/
 ## Quick Setup
 Follow the instructions to the line to run this same example in your Akamai EdgeWorkers environment.
 1. Clone this repository and push it to your own repository. 
-2. Modify the `.circleci/config.yml` configuration by adding your own values to the environmental variables `EWVERSION`, `DESCRIPTION` and `EWID`. For example:
+2. Modify the `.circleci/config.yml` configuration by adding your own values to the environmental variables  `EWID` and `BUNDLENAME`. For example:
   ```
   environment:
-    EWVERSION: 0.43
     EWID: 4885
     BUNDLENAME: ew-bundle.tgz
-    DESCRIPTION: "EW Deployment Automation with CircleCI"
   ```
 3. Set up a CircleCI Context named **edgerc** with all the variables labeled as "CircleCI Context" from the table below. If you’re not use EdgeKV then ignore the EDGEKV_* variables. [Instructions](https://circleci.com/docs/2.0/contexts/)
 4. Set up a CircleCI project with GitHub. [Instructions](https://circleci.com/docs/2.0/getting-started/)
@@ -50,10 +48,8 @@ These are the variables and parameters to setup and modify. Keep the same names 
 | EDGEKV_NAMESPACE | ***** | CircleCI Context | [OPTIONAL] Namespace if EdgeKV is enabled. Used to build the edgekv_tokens.js file. |
 | EDGEKV_TOKEN_NAME | ***** | CircleCI Context | [OPTIONAL] Token Name if EdgeKV is enabled. Used to build the edgekv_tokens.js file.  |
 | EDGEKV_TOKEN_VALUE | ***** | CircleCI Context | [OPTIONAL] Token Value if EdgeKV is enabled. Used to build the edgekv_tokens.js file.  |
-| EWVERSION | 2.55 | .circleci/config.yml: environment block | EdgeWorkers version. This should increment on each execution. |
 | EWID | 1234 | .circleci/config.yml: environment block | EdgeWorkers ID |
 | BUNDLENAME | my_bundle.tgz | .circleci/config.yml: environment block | The name for the bundle file. Used to update the bundle.json file. |
-| DESCRIPTION | Hello World Example | .circleci/config.yml: environment block | The description of the EdgeWorker. Used to update the bundle.json file. |
 | edgekv | Boolean (true \|\| false) | .circleci/config.yml: parameter block | ‘true’ if EdgeKV is enabled and ‘false’ if EdgeKV is not enabled |
 | production | Boolean (true \|\| false) | .circleci/config.yml: parameter block | ‘true’ to push to production and staging and ‘false’ to push only to staging |
 
