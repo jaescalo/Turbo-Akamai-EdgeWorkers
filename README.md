@@ -26,7 +26,7 @@ Follow the instructions to the line to run this same example in your Akamai Edge
     BUNDLENAME: ew-bundle.tgz
     DESCRIPTION: "EW Deployment Automation with CircleCI"
   ```
-3. Set up a CircleCI Context named **edgerc** with all the variables labeled as “CircleCI Context” from the table below. If you’re not use EdgeKV then ignore the EDGEKV_* variables. [Instructions](https://circleci.com/docs/2.0/contexts/)
+3. Set up a CircleCI Context named **edgerc** with all the variables labeled as "CircleCI Context" from the table below. If you’re not use EdgeKV then ignore the EDGEKV_* variables. [Instructions](https://circleci.com/docs/2.0/contexts/)
 4. Set up a CircleCI project with GitHub. [Instructions](https://circleci.com/docs/2.0/getting-started/)
 5. Commit your changes to your GitHub repository and watch the pipeline execute.
 
