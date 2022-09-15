@@ -1,9 +1,9 @@
 {
     "edgeworker-version": "EWVERSION",
-    "bundle-version" : 5.51,
+    "bundle-version" : 5,
     "api-version" : "1.0",
     "description" : "DESCRIPTION",
     "misc" : {
-        "author" : "GitHub/CircleCI"
+        "author" : "GitHub and CircleCI"
      }
 }
